@@ -60,7 +60,7 @@ router.post('/login', async (req, res) => {
       if (!isPassValid) {
          return res.status(400).json({ message: 'Invalid password' });
       }
-      const token = jwt.sign({ id: user.id }, config.get('secretKey'), {
+      const token = jwt.sign({ id: user._id }, config.get('secretKey'), {
          expiresIn: '1h'
       });
       return res.json({
