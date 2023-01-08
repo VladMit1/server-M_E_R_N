@@ -23,6 +23,7 @@ class FileService {
       file.type === 'dir' ? fs.rmdirSync(path) : fs.unlinkSync(path);
    }
    getPath(req, file) {
+      console.log(req.filePath);
       return req.filePath + '/' + file.user + '/' + file.path;
    }
 }

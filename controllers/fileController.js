@@ -121,7 +121,7 @@ class FileController {
             _id: req.query.id,
             user: req.user.id
          });
-         const path = fileService.getPath(req, file);
+         const path = fileService.getPath(req.filePath, file);
          return fs.existsSync(path)
             ? res.download(path, file.name)
             : res.status(400).json({ message: 'Download error' });
@@ -171,7 +171,7 @@ class FileController {
       }
    }
    async deleteAvatar(req, res) {
-      console.log(req);
+      console.log(req.filePath);
       try {
          const user = await User.findById(req.user.id);
          fs.unlinkSync(req.filePath + '/' + user.avatar);
