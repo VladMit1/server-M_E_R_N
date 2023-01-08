@@ -7,8 +7,8 @@ class FileService {
       console.log(filePath);
       return new Promise((resolve, reject) => {
          try {
-            if (!fs.existsSync(filePath)) {
-               fs.mkdirSync(filePath);
+            if (!fs.existsSync(req.filePath)) {
+               fs.mkdirSync(req.filePath);
                return resolve({ message: 'File was created' });
             } else {
                return reject({ message: 'File already exists' });
