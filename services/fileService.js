@@ -7,7 +7,7 @@ class FileService {
       console.log(filePath);
       return new Promise((resolve, reject) => {
          try {
-            if (!fs.existsSync(req.filePath)) {
+            if (!fs.existsSync(filePath)) {
                fs.mkdirSync(req.filePath);
                return resolve({ message: 'File was created' });
             } else {
