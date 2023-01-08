@@ -171,6 +171,7 @@ class FileController {
       }
    }
    async deleteAvatar(req, res) {
+      console.log(req);
       try {
          const user = await User.findById(req.user.id);
          fs.unlinkSync(req.filePath + '/' + user.avatar);
