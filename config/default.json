@@ -2,6 +2,6 @@
    "serverPort": 5000,
    "bdUrl": "mongodb+srv://Vladimir:18021990Vlad@cloud.prl8lay.mongodb.net/?retryWrites=true&w=majority",
    "secretKey": "mern-secret-key",
-   "filePath": "/files",
-   "staticPath": "/static"
+   "filePath": "/home/vladimir/WorkSpace/My Work/Mern/server/files",
+   "staticPath": "/home/vladimir/WorkSpace/My Work/Mern/server/static"
 }
