@@ -3,11 +3,12 @@ const config = require('config');
 
 class FileService {
    createDir(req, file) {
+      console.log(req);
       const filePath = this.getPath(req, file);
       return new Promise((resolve, reject) => {
          try {
             if (!fs.existsSync(filePath)) {
-               fs.mkdirSync(req);
+               fs.mkdirSync(filePath);
                return resolve({ message: 'File was created' });
             } else {
                return reject({ message: 'File already exists' });
