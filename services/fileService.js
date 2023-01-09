@@ -8,8 +8,8 @@ class FileService {
 
       return new Promise((resolve, reject) => {
          try {
-            if (!fs.existsSync(req.filePath)) {
-               fs.mkdirSync(req.filePath);
+            if (!fs.existsSync(filePath)) {
+               fs.mkdirSync(filePath);
                return resolve({ message: 'File was created' });
             } else {
                return reject({ message: 'File already exists' });
@@ -25,7 +25,7 @@ class FileService {
       file.type === 'dir' ? fs.rmdirSync(path) : fs.unlinkSync(path);
    }
    getPath(req, file) {
-      console.log(req, '=>get');
+      console.log(req.filePath, '=>get');
       return req.filePath + '/' + file.user + '/' + file.path;
    }
 }
