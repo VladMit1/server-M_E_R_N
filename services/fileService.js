@@ -3,7 +3,7 @@ const config = require('config');
 
 class FileService {
    createDir(req, file) {
-      const filePath = this.getPath(req.filePath, file);
+      const filePath = this.getPath(req, file);
       console.log(filePath,'=>log');
 
       return new Promise((resolve, reject) => {
