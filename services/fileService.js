@@ -27,7 +27,7 @@ class FileService {
    getPath(req, file) {
       console.log(req.filePath, '=>get');
       console.log(file, '=>get');
-      return req.filePath + '/' + file.user + '/' + file.path;
+      return req + '/' + file.user + '/' + file.path;
    }
 }
 
