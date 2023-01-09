@@ -3,13 +3,13 @@ const config = require('config');
 
 class FileService {
    createDir(req, file) {
-      const filePath = this.getPath(req, file);
-      console.log(filePath,  req, '=>log');
+      const filePath = this.getPath(req.filePath, file);
+      console.log(filePath, '=>log');
 
       return new Promise((resolve, reject) => {
          try {
             if (!fs.existsSync(filePath)) {
-               fs.mkdirSync(req.filePath);
+               fs.mkdirSync(filePath);
                return resolve({ message: 'File was created' });
             } else {
                return reject({ message: 'File already exists' });
@@ -21,11 +21,11 @@ class FileService {
    }
    deleteFile(req, file) {
       const path = this.getPath(req, file);
-      console.log(path,'=>delete');
+      console.log(path, '=>delete');
       file.type === 'dir' ? fs.rmdirSync(path) : fs.unlinkSync(path);
    }
    getPath(req, file) {
-      console.log(req.filePath,file,'=>get');
+      console.log(req.filePath, file, '=>get');
       return req.filePath + '/' + file.user + '/' + file.path;
    }
 }
