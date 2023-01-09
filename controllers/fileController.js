@@ -6,6 +6,7 @@ const Uuid = require('uuid');
 
 class FileController {
    async createDir(req, res) {
+      console.log(req.filePath,'===> fileController');
       try {
          const { name, type, parent } = req.body;
          const file = new File({ name, type, parent, user: req.user.id });
@@ -25,6 +26,7 @@ class FileController {
          return res.status(400).json(e);
       }
    }
+
    async getFiles(req, res) {
       try {
          const { sort } = req.query;
@@ -67,6 +69,7 @@ class FileController {
          return res.status(500).json({ message: 'Can not get files' });
       }
    }
+
    async uploadFile(req, res) {
       try {
          const file = req.files.file;
@@ -121,7 +124,7 @@ class FileController {
             _id: req.query.id,
             user: req.user.id
          });
-         const path = fileService.getPath(req.filePath, file);
+         const path = fileService.getPath(req, file);
          return fs.existsSync(path)
             ? res.download(path, file.name)
             : res.status(400).json({ message: 'Download error' });
@@ -161,7 +164,7 @@ class FileController {
          const file = req.files.file;
          const user = await User.findById(req.user.id);
          const avatarName = Uuid.v4() + '.jpg';
-         file.mv(req.filePath + '/' + avatarName);
+         file.mv(req + '/' + avatarName);
          user.avatar = avatarName;
          await user.save();
          return res.json(user);
@@ -171,10 +174,10 @@ class FileController {
       }
    }
    async deleteAvatar(req, res) {
-      console.log(req.filePath,'delete avatar');
+      console.log(req,'delete avatar');
       try {
          const user = await User.findById(req.user.id);
-         fs.unlinkSync(req.filePath + '/' + user.avatar);
+         fs.unlinkSync(req + '/' + user.avatar);
          user.avatar = null;
          await user.save();
          return res.json(user);

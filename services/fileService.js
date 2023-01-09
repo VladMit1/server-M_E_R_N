@@ -21,11 +21,12 @@ class FileService {
    }
    deleteFile(req, file) {
       const path = this.getPath(req, file);
-      //console.log(path, '=>delete');
+      console.log(path, '=>delete');
       file.type === 'dir' ? fs.rmdirSync(path) : fs.unlinkSync(path);
    }
    getPath(req, file) {
       console.log(req.filePath, '=>get');
+      console.log(file, '=>get');
       return req.filePath + '/' + file.user + '/' + file.path;
    }
 }
