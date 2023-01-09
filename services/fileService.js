@@ -3,8 +3,9 @@ const config = require('config');
 
 class FileService {
    createDir(req, file) {
-      console.log(req.filePath,'ffdffc');
       const filePath = this.getPath(req.filePath, file);
+      console.log(filePath,'=>log');
+
       return new Promise((resolve, reject) => {
          try {
             if (!fs.existsSync(filePath)) {
