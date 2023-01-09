@@ -27,6 +27,7 @@ router.post(
                .json({ message: 'Uncorrect request', errors });
          }
          const { email, password } = req.body;
+         console.log(req.body, '=>req.body');
          const candidate = await User.findOne({ email });
          if (candidate) {
             return res
@@ -36,6 +37,7 @@ router.post(
          const hashPassword = await bcrypt.hash(password, 7);
          const user = new User({ email, password: hashPassword });
          await user.save();
+         console.log(req, '=>request registration');
          await fileService.createDir(
             req,
             new File({ user: user.id, name: '' })
