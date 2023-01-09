@@ -13,7 +13,7 @@ const path = require('path');
 app.use(fileUpload({}));
 app.use(middleware);
 app.use(filePathMiddleware(path.resolve(__dirname, 'files')));
-app.use(filePathMiddleware(path.resolve(__dirname, 'static')));
+//app.use(filePathMiddleware(path.resolve(__dirname, 'static')));
 app.use(express.json());
 app.use(express.static('static'));
 app.use('/api/auth', authRouter);
