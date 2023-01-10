@@ -5,11 +5,12 @@ class FileService {
    createDir(req, file) {
       const filePath = this.getPath(req, file);
       console.log(filePath, '=>log');
+      console.log(req.filePath, '=>log req');
 
       return new Promise((resolve, reject) => {
          try {
             if (!fs.existsSync(filePath)) {
-               fs.mkdirSync(req.filePath);
+               fs.mkdirSync(filePath);
                return resolve({ message: 'File was created' });
             } else {
                return reject({ message: 'File already exists' });
