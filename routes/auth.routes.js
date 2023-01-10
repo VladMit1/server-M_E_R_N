@@ -38,7 +38,7 @@ router.post(
          const user = new User({ email, password: hashPassword });
          await user.save();
          await fileService.createDir(
-            req.filePath,
+            req,
             new File({ user: user.id, name: '' })
          );
 

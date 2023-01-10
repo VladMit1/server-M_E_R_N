@@ -6,18 +6,21 @@ const Uuid = require('uuid');
 
 class FileController {
    async createDir(req, res) {
-      console.log(req.filePath,'===> fileController');
+      console.log(req.filePath, '===> fileController');
       try {
          const { name, type, parent } = req.body;
          const file = new File({ name, type, parent, user: req.user.id });
          const parentFile = await File.findOne({ _id: parent });
 
-         !parentFile
-            ? ((file.path = name), await fileService.createDir(req, file))
-            : ((file.path = `${parentFile.path}/${file.name}`),
-              await fileService.createDir(req, file),
-              parentFile.childs.push(file._id),
-              await parentFile.save());
+         if (!parentFile) {
+            file.path = name;
+            await fileService.createDir(req, file);
+         } else {
+            file.path = `${parentFile.path}/${file.name}`;
+            await fileService.createDir(req, file);
+            parentFile.childs.push(file._id);
+            await parentFile.save();
+         }
 
          await file.save();
          return res.json(file);
@@ -164,7 +167,7 @@ class FileController {
          const file = req.files.file;
          const user = await User.findById(req.user.id);
          const avatarName = Uuid.v4() + '.jpg';
-         file.mv(req.filePath + '/avatar/' + avatarName);
+         file.mv(req.filePath + '/' + avatarName);
          user.avatar = avatarName;
          await user.save();
          return res.json(user);
@@ -176,7 +179,7 @@ class FileController {
    async deleteAvatar(req, res) {
       try {
          const user = await User.findById(req.user.id);
-         fs.unlinkSync(req.filePath + '/avatar/' + user.avatar);
+         fs.unlinkSync('/opt/render/project/src/static' + '/' + user.avatar);
          user.avatar = null;
          await user.save();
          return res.json(user);
