@@ -6,7 +6,7 @@ const Uuid = require('uuid');
 
 class FileController {
    async createDir(req, res) {
-      console.log(req, '===> fileController');
+      console.log(req.body, '===> fileController');
       try {
          const { name, type, parent } = req.body;
          const file = new File({ name, type, parent, user: req.user.id });
