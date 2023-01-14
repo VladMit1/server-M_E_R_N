@@ -6,7 +6,6 @@ const Uuid = require('uuid');
 
 class FileController {
    async createDir(req, res) {
-      console.log(req.body, '===> fileController');
       try {
          const { name, type, parent } = req.body;
          const file = new File({ name, type, parent, user: req.user.id });
@@ -167,7 +166,7 @@ class FileController {
          const file = req.files.file;
          const user = await User.findById(req.user.id);
          const avatarName = Uuid.v4() + '.jpg';
-         file.mv(req.filePath + '/' + avatarName);
+         file.mv(req.filePath.replace('files', 'static') + '/' + avatarName);
          user.avatar = avatarName;
          await user.save();
          return res.json(user);
@@ -179,7 +178,9 @@ class FileController {
    async deleteAvatar(req, res) {
       try {
          const user = await User.findById(req.user.id);
-         fs.unlinkSync('/opt/render/project/src/static' + '/' + user.avatar);
+         fs.unlinkSync(
+            req.filePath.replace('files', 'static') + '/' + user.avatar
+         );
          user.avatar = null;
          await user.save();
          return res.json(user);

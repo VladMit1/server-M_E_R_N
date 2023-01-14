@@ -1,8 +1,8 @@
 const Router = require('express');
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const config = require('config');
+const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
 const router = new Router();
 const authMiddleware = require('../middleware/auth.middleware');
@@ -27,21 +27,19 @@ router.post(
                .json({ message: 'Uncorrect request', errors });
          }
          const { email, password } = req.body;
-         console.log(req.body, '=>req.body');
          const candidate = await User.findOne({ email });
          if (candidate) {
             return res
                .status(400)
                .json({ message: `User with email ${email} already exist` });
          }
-         const hashPassword = await bcrypt.hash(password, 7);
+         const hashPassword = await bcrypt.hash(password, 8);
          const user = new User({ email, password: hashPassword });
          await user.save();
          await fileService.createDir(
             req,
             new File({ user: user.id, name: '' })
          );
-
          res.json({ message: 'User was created' });
       } catch (e) {
          console.log(e);
@@ -61,7 +59,7 @@ router.post('/login', async (req, res) => {
       if (!isPassValid) {
          return res.status(400).json({ message: 'Invalid password' });
       }
-      const token = jwt.sign({ id: user._id }, config.get('secretKey'), {
+      const token = jwt.sign({ id: user.id }, config.get('secretKey'), {
          expiresIn: '1h'
       });
       return res.json({
@@ -82,7 +80,7 @@ router.post('/login', async (req, res) => {
 
 router.get('/auth', authMiddleware, async (req, res) => {
    try {
-      const user = await User.findOne({ id: req.user.id });
+      const user = await User.findOne({ _id: req.user.id });
       const token = jwt.sign({ id: user.id }, config.get('secretKey'), {
          expiresIn: '1h'
       });
@@ -101,4 +99,5 @@ router.get('/auth', authMiddleware, async (req, res) => {
       res.send({ message: 'Server error' });
    }
 });
+
 module.exports = router;
